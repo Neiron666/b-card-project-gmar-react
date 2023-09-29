@@ -1,19 +1,19 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Bussiness Cards App",
+  "name": "Bussiness Card Application for bussiness and clients",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "./assets/images/business-card.jpg",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "./assets/images/business-card.jpg",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "./assets/images/business-card.jpg",
       "type": "image/png",
       "sizes": "512x512"
     }

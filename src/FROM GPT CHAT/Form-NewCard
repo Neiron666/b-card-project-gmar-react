@@ -1,0 +1,87 @@
+import React, { useState } from "react";
+
+const CreateCardForm = ({ onAddCard }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    // Другие поля формы
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onAddCard(formData);
+    // Очистка полей формы после отправки
+    setFormData({
+      name: "",
+      description: "",
+      // Очищайте другие поля формы здесь
+    });
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Name:</label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label>Description:</label>
+        <input
+          type="text"
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+        />
+      </div>
+      {/* Добавьте другие поля формы здесь */}
+      <button type="submit">Add Card</button>
+    </form>
+  );
+};
+
+export default CreateCardForm;
+
+В этом примере компонент CreateCardForm содержит форму для создания новой карточки. Когда пользователь заполняет поля и отправляет форму, данные передаются обратно в родительский компонент CreateCardPage через функцию onAddCard. Внутри CreateCardPage вы можете обработать эти данные (например, создать новую карточку с этими данными).
+
+
+import React, { useState } from "react";
+import CreateCardForm from "./CreateCardForm";
+
+const CreateCardPage = () => {
+  const [cardList, setCardList] = useState([]);
+
+  const handleAddCard = (newCard) => {
+    // Создание новой карточки на основе данных из newCard
+    const updatedCardList = [...cardList, newCard];
+    setCardList(updatedCardList);
+
+    console.log("New Card Data:", newCard);
+    console.log("Updated Card List:", updatedCardList);
+  };
+
+  return (
+    <div>
+      <h1>Create a New Card</h1>
+      <CreateCardForm onAddCard={handleAddCard} />
+    </div>
+  );
+};
+
+export default CreateCardPage;
+
+В этом примере CreateCardPage использует CreateCardForm, чтобы пользователь мог ввести данные новой карточки, а затем передает функцию handleAddCard как пропс в CreateCardForm. Когда пользователь отправляет форму, функция handleAddCard добавляет новую карточку в список cardList, и вы можете увидеть это в консоли.
+
+

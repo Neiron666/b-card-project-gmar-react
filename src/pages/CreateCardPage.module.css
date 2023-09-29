@@ -1,0 +1,42 @@
+.new-card {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  width: 100%;
+  padding: 2rem 0;
+}
+.new-card form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  gap: 2rem;
+  padding: 2rem;
+}
+.controls {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  flex-basis: 40%;
+  flex-grow: 1;
+  gap: 5px;
+}
+form::after {
+  content: "";
+  flex-basis: 40%;
+  flex-grow: 1;
+}
+.new-card form .controls input {
+  font: inherit;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.new-card form .controls input:focus {
+  border: 1px solid #0ab2ea;
+  background-color: #d3eeff;
+}
+
+form .button {
+  width: 100%;
+}

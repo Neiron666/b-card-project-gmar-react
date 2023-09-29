@@ -1,0 +1,61 @@
+.rightNavBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  /* color: rgb(255, 255, 255); */
+  text-shadow: 2px 2px 5px #00000032;
+}
+
+.rightNavBar a {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
+.rightNavBar a:hover {
+  scale: 1.1;
+  transition-duration: 50ms;
+  color: black;
+}
+
+.rightNavBar a.active {
+  color: black;
+}
+
+.rightNavBar input[type="search"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 250px;
+  font-size: 1rem;
+}
+
+.rightNavBar input[type="search"]:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+.rightNavBar img {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+.rightNavBar img:active {
+  box-shadow: 0 2px 5px #666;
+  transform: translateY(4px);
+}
+
+.rightNavBar img:hover {
+  animation: zoom 0.3s ease-in-out; /* Используем анимацию с именем "zoom" */
+}
+
+@keyframes zoom {
+  0% {
+    transform: scale(1); /* Начальный размер */
+  }
+  40% {
+    transform: scale(1.1); /* Увеличение размера до 110% */
+  }
+
+  100% {
+    transform: scale(1); /* Возвращение к исходному размеру */
+  }
+}

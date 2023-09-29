@@ -1,0 +1,112 @@
+Проблема, которую вы сталкиваетесь, связана с тем, что вы используете хук useState внутри компонента CardList, который вызывается в каждом месте, где вы используете CardList(). Каждый раз, когда вы вызываете CardList(), создается новое состояние, и ваши cardList и formData снова инициализируются пустыми значениями.
+
+Чтобы решить эту проблему, вы можете вынести логику работы с данными и состоянием в отдельный хук или контекст, чтобы они сохранялись между вызовами компонента. Вот как это можно сделать:
+
+Создайте отдельный хук для управления состоянием карточек и формы:
+jsx
+
+// CardListState.js
+import { useState } from "react";
+
+export const useCardListState = () => {
+const [formData, setFormData] = useState({
+id: "",
+name: "",
+description: "",
+src: "",
+alt: "",
+phone: "",
+address: "",
+url: "",
+email: "",
+state: "",
+country: "",
+city: "",
+street: "",
+houseNumber: "",
+zip: "",
+});
+
+const [cardList, setCardList] = useState([]);
+
+const handleChange = (e) => {
+const { name, value } = e.target;
+setFormData((prevData) => ({ ...prevData, [name]: value }));
+};
+
+const handleAddCard = (newCard) => {
+const updatedCardList = [...cardList, newCard];
+setCardList(updatedCardList);
+};
+
+const resetForm = () => {
+setFormData({
+id: "",
+name: "",
+description: "",
+src: "",
+alt: "",
+phone: "",
+address: "",
+url: "",
+email: "",
+state: "",
+country: "",
+city: "",
+street: "",
+houseNumber: "",
+zip: "",
+});
+};
+
+return {
+formData,
+cardList,
+handleChange,
+handleAddCard,
+resetForm,
+};
+};
+
+В ваших компонентах использовать этот хук:
+
+// CardList.js
+import React from "react";
+import Card from "../UI/bussines-card/Card";
+import { useCardListState } from "./CardListState";
+
+const CardList = () => {
+const {
+formData,
+cardList,
+handleChange,
+handleAddCard,
+resetForm,
+} = useCardListState();
+
+// ... остальной код CardList ...
+};
+
+export default CardList;
+
+// CreateCardPage.js
+import React from "react";
+import FormInputUI from "../components/UI/form-UI/FormInputUI";
+import styles from "./CreateCardPage.module.css";
+import Button from "../components/Button/Button";
+import { useCardListState } from "../components/cards/CardListState";
+
+const CreateCardPage = () => {
+const {
+formData,
+handleChange,
+handleAddCard,
+resetForm,
+} = useCardListState();
+
+// ... остальной код CreateCardPage ...
+};
+
+export default CreateCardPage;
+
+Таким образом, вы будете использовать одно и то же состояние и методы для управления данными в разных компонентах, и данные не будут обнуляться при переключении страниц.

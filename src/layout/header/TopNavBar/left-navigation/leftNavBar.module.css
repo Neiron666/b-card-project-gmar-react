@@ -1,0 +1,23 @@
+.leftNavBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 5px #00000032;
+}
+
+.leftNavBar a {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
+.leftNavBar a:hover {
+  scale: 1.1;
+  transition-duration: 50ms;
+  color: black;
+}
+
+.leftNavBar a.active {
+  color: rgb(0, 0, 0);
+}
