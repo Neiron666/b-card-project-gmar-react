@@ -16,14 +16,17 @@ const LoginPage = () => {
   };
 
   const [formData, setFormData] = useState(initialFormData);
+  const [errorPasswordMessege, setErrorPasswordMessege] = useState("");
   const [isSubmitTuched, setIsSubmitTuched] = useState(false);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
   const [wasEmailInputTouched, setWasEmailInputTouched] = useState(false);
+
   const [wasPasswordInputTouched, setWasPasswordInputTouched] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrorPasswordMessege("");
   };
 
   const emailInputLostFocusHandler = () => {
@@ -43,6 +46,7 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsSubmitTuched(false);
     if (!isFormValid) {
       return;
     }
@@ -58,6 +62,8 @@ const LoginPage = () => {
         localStorage.setItem("firebaseKey", isUser.id);
 
         navigate("/");
+      } else if (isUser.password !== formData.password) {
+        setErrorPasswordMessege("Wrong Password");
       }
     } else {
       setIsSubmitTuched(true);
@@ -74,6 +80,7 @@ const LoginPage = () => {
       <h1>Login Page</h1>
       <p>Please Login</p>
       <hr />
+
       <FormInputUI className={styles["new-card"]}>
         <form onSubmit={handleSubmit}>
           <div className={styles.controls}>
@@ -100,7 +107,15 @@ const LoginPage = () => {
               value={formData.password}
             />
           </div>
-          {isNoFoundUser ? <p>User not found in the database.</p> : ""}
+          <div className={styles["error-messege"]}>
+            {isNoFoundUser ? (
+              <p>User not found in the database</p>
+            ) : errorPasswordMessege ? (
+              <p>{errorPasswordMessege}</p>
+            ) : (
+              ""
+            )}
+          </div>
           <Button
             disabled={!isFormValid}
             type="submit"

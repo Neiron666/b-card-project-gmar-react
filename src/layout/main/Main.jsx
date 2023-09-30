@@ -20,6 +20,7 @@ const Main = () => {
   useEffect(() => {
     const userLogged = !!uCtx.currentUserSession && uCtx.loginButtonIsToched;
     const cardAdded = ctx.addCadrdButtonIsToched;
+    const cardDeleted = ctx.cardIsDeleted;
     // const cardAdded =
     if (userLogged) {
       handleAllertMessege("Login Succes");
@@ -28,6 +29,10 @@ const Main = () => {
     if (cardAdded) {
       handleAllertMessege("Card is Added");
       ctx.setAddCadrdButtonIsToched(false);
+    }
+    if (cardDeleted) {
+      handleAllertMessege("Card is Deleted");
+      ctx.setCardIsDeleted(false);
     }
 
     const timer = setTimeout(() => {

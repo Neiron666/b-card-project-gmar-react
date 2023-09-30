@@ -22,6 +22,8 @@ const CardsStoreContext = React.createContext({
   onEditCard: () => {},
   setAddCadrdButtonIsToched: () => {},
   addCadrdButtonIsToched: Boolean,
+  setCardIsDeleted: () => {},
+  cardIsDeleted: Boolean,
 });
 
 export const CardsStoreContextProvider = (props) => {
@@ -29,6 +31,8 @@ export const CardsStoreContextProvider = (props) => {
   const currentLocation = location.pathname.endsWith("/my-cards");
 
   const uCtx = useContext(UsersStoreContext);
+
+  const [cardIsDeleted, setCardIsDeleted] = useState(false);
   const [cards, setCards] = useState([]);
   const [favCards, setFavCards] = useState([]);
   const [editPageActive, setEditPageActive] = useState(false);
@@ -114,6 +118,7 @@ export const CardsStoreContextProvider = (props) => {
       await remove(ref(firebaseDatabase, path));
       console.log(`Карточка с ключом ${cardId} успешно удалена.`);
       setCards((prevCards) => prevCards.filter((card) => card.id !== cardId));
+      setCardIsDeleted(true);
     } catch (error) {
       console.error(`Ошибка при удалении карточки с ключом ${cardId}:`, error);
     }
@@ -158,6 +163,8 @@ export const CardsStoreContextProvider = (props) => {
         onEditCard: submitEditCardHandler,
         setAddCadrdButtonIsToched,
         addCadrdButtonIsToched,
+        setCardIsDeleted,
+        cardIsDeleted,
       }}
     >
       {props.children}

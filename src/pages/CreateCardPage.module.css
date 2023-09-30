@@ -40,3 +40,12 @@ form::after {
 form .button {
   width: 100%;
 }
+
+.error-messege {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  color: red;
+  font-weight: 700;
+  width: 100%;
+}
