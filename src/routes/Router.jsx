@@ -10,6 +10,7 @@ import CreateCardPage from "../pages/CreateCardPage";
 import EditCardPage from "../pages/EditCardPage";
 import ErrorPage from "../pages/ErrorPage";
 import EditUserPage from "../pages/EditUserPage";
+import EditUserDataPage from "../pages/EditUserDataPage";
 
 const Router = () => {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const Router = () => {
       <Route path="create-card" element={<CreateCardPage />} />
       <Route path="edit-card-page" element={<EditCardPage />} />
       <Route path="edit-user" element={<EditUserPage />} />
+      <Route path="edit-user-data" element={<EditUserDataPage />} />
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );

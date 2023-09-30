@@ -13,6 +13,9 @@ const UsersStoreContext = React.createContext({
   editUser: {},
   loginCurrentUser: () => {},
   editUserPageActive: Boolean,
+  loginButtonIsToched: Boolean,
+  onLogout: () => {},
+  setLoginButtonIsToched: () => {},
 });
 
 export const UsersStoreContextProvider = (props) => {
@@ -21,6 +24,7 @@ export const UsersStoreContextProvider = (props) => {
   const [currentUserSession, setcurrentUserSession] = useState(null);
   const [editUserPageActive, setEditUserPageActive] = useState(false);
   const [editUser, setEditUser] = useState({});
+  const [loginButtonIsToched, setLoginButtonIsToched] = useState(false);
 
   const location = useLocation();
   const currentLocation = location.pathname.endsWith("/");
@@ -37,6 +41,8 @@ export const UsersStoreContextProvider = (props) => {
     logUserInFunc();
   };
   const logoutCurrentUser = () => {
+    localStorage.removeItem("firebaseKey");
+    localStorage.removeItem("firebaseKeyExpiration");
     setcurrentUserSession(null);
     logUserOutFunc();
   };
@@ -117,6 +123,9 @@ export const UsersStoreContextProvider = (props) => {
         editUserPageActive,
         editUser,
         submitEditUserHandler,
+        onLogout: logoutCurrentUser,
+        setLoginButtonIsToched,
+        loginButtonIsToched,
       }}
     >
       {props.children}

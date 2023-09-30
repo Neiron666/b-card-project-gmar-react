@@ -12,8 +12,8 @@ const RightNavBar = () => {
   const uCtx = useContext(UsersStoreContext);
 
   const editUserFun = () => {
-    navigate("/edit-user");
-    uCtx.editUserisActiveHandler();
+    navigate("/edit-user-data");
+    // uCtx.editUserisActiveHandler();
   };
   return (
     <div className={styles.rightNavBar}>

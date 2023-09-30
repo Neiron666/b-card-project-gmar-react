@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import FormInputUI from "../components/UI/form-UI/FormInputUI";
 import styles from "./CreateCardPage.module.css";
 import Button from "../components/Button/Button";
 import { useState } from "react";
 import UsersStoreContext from "../store-context/UsersStoreContext";
 import { useNavigate } from "react-router-dom";
+import Alert from "../components/custom-components/Alert";
 
 const LoginPage = () => {
   const uCtx = useContext(UsersStoreContext);
@@ -53,7 +54,9 @@ const LoginPage = () => {
       ) {
         setIsUserRegistered(true);
         uCtx.loginCurrentUser(isUser);
+        uCtx.setLoginButtonIsToched(true);
         localStorage.setItem("firebaseKey", isUser.id);
+
         navigate("/");
       }
     } else {

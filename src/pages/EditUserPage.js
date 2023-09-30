@@ -32,7 +32,7 @@ const EditUserPage = () => {
     const newUserData = { ...formData, id: formData.email };
     uCtx.submitEditUserHandler(newUserData);
     resetForm();
-    navigate("/");
+    navigate("/edit-user-data");
   };
 
   const handleChange = (e) => {

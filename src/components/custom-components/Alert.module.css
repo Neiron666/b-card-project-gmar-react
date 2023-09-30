@@ -1,0 +1,10 @@
+.alert {
+  position: fixed;
+  left: 40px;
+  bottom: 40px;
+  padding: 20px;
+  background-color: #89ff71;
+  color: white;
+  box-shadow: 0 3px 3px 3px rgba(0, 0, 0, 0.25);
+  border-radius: 10%;
+}

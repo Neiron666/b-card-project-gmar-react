@@ -60,6 +60,7 @@ const CreateCardPage = () => {
     };
     ctx.onAddCard(newCardData);
     resetForm();
+    ctx.setAddCadrdButtonIsToched(true);
     navigate("/my-cards");
   };
   // const inputTitleClasses =

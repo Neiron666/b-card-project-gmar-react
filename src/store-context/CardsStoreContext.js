@@ -15,6 +15,8 @@ const CardsStoreContext = React.createContext({
   editPageActive: Boolean,
   editCard: {},
   onEditCard: () => {},
+  setAddCadrdButtonIsToched: () => {},
+  addCadrdButtonIsToched: Boolean,
 });
 
 export const CardsStoreContextProvider = (props) => {
@@ -26,7 +28,7 @@ export const CardsStoreContextProvider = (props) => {
   const [favCards, setFavCards] = useState([]);
   const [editPageActive, setEditPageActive] = useState(false);
   const [editCard, setEditCard] = useState([]);
-
+  const [addCadrdButtonIsToched, setAddCadrdButtonIsToched] = useState(false);
   const addCardHandle = async (newCard) => {
     await fetch(
       `https://react-course-http-bce24-default-rtdb.firebaseio.com/cards.json`,
@@ -144,6 +146,8 @@ export const CardsStoreContextProvider = (props) => {
         editPageActive: editPageActive,
         editCard: editCard,
         onEditCard: submitEditCardHandler,
+        setAddCadrdButtonIsToched,
+        addCadrdButtonIsToched,
       }}
     >
       {props.children}
