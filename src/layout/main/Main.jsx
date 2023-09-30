@@ -32,7 +32,7 @@ const Main = () => {
 
     const timer = setTimeout(() => {
       setAlertMessage(null); // Закрываем алерт через 5 секунд (можете изменить время)
-    }, 2000);
+    }, 3000);
     return () => clearTimeout(timer);
   }, [uCtx.currentUserSession, ctx.cards]);
 

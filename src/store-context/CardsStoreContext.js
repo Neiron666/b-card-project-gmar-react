@@ -1,6 +1,11 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import UsersStoreContext from "./UsersStoreContext";
 import { useLocation } from "react-router-dom";
+import {
+  firebase,
+  database as firebaseDatabase,
+} from "../firebase/FirebaseConfig";
+import { getDatabase, ref, remove } from "firebase/database";
 
 const CardsStoreContext = React.createContext({
   cards: [{}],
@@ -103,12 +108,17 @@ export const CardsStoreContextProvider = (props) => {
   console.log(cards);
   console.log(editPageActive);
 
-  const deleteCardHandle = (cardId) => {
-    setCards((prevCards) => {
-      const updatedCards = prevCards.filter((card) => card.id !== cardId);
-      return updatedCards;
-    });
+  const deleteCardHandle = async (cardId) => {
+    const path = `cards/${cardId}`;
+    try {
+      await remove(ref(firebaseDatabase, path));
+      console.log(`Карточка с ключом ${cardId} успешно удалена.`);
+      setCards((prevCards) => prevCards.filter((card) => card.id !== cardId));
+    } catch (error) {
+      console.error(`Ошибка при удалении карточки с ключом ${cardId}:`, error);
+    }
   };
+
   const favCardDeleteHandler = (cardId) => {
     setFavCards((prevCards) => {
       const updatedCards = [...prevCards.filter((card) => card.id !== cardId)];
