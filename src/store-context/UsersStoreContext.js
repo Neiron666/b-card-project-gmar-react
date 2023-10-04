@@ -85,6 +85,7 @@ export const UsersStoreContextProvider = (props) => {
       }
       return loadedUsers;
     };
+
     fetchUsers().then((loadedUsers) => {
       // Обновляем состояние users с помощью полученных данных
       setUsers(loadedUsers);

@@ -35,6 +35,7 @@ const CreateCardPage = () => {
     street: "",
     houseNumber: "",
     zip: "",
+    fav: false,
   };
   const [formData, setFormData] = useState(initialFormData);
 

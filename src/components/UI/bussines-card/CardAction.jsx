@@ -13,9 +13,11 @@ const CardAction = (props) => {
     ctx.onDeleteFavCard(props.id);
     ctx.onDeleteCard(props.id);
   };
+
   const addFavCardHandler = () => {
-    ctx.onAddFavCard(props.id);
+    ctx.onAddFavCard(props.id, props.fav);
   };
+
   const editCardHandler = () => {
     ctx.onEditCardActive(props.id);
   };

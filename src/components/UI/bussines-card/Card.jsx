@@ -30,7 +30,11 @@ const Card = (props) => {
           address={props.address}
           className={styles["card-body"]}
         />
-        <CardAction id={props.id} className={styles["card-action"]} />
+        <CardAction
+          id={props.id}
+          fav={props.fav}
+          className={styles["card-action"]}
+        />
       </div>
     </li>
   );

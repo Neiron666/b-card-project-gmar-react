@@ -24,6 +24,7 @@ const FavCardsPage = () => {
             cardNumber={card.id}
             address={`${card.country} ${card.city} ${card.street} ${card.houseNumber}`}
             url={card.url}
+            fav={card.fav}
           />
         ))}
       </ul>

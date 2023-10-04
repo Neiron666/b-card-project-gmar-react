@@ -43,7 +43,7 @@ const SignUpPage = () => {
     navigate("/");
   };
   const alredyExistedUser = (
-    <p>This user already registered,please Login or choose another email</p>
+    <p>This user already registered, please Login or choose another email</p>
   );
   return (
     <>
@@ -96,7 +96,9 @@ const SignUpPage = () => {
               value={formData.password}
             />
           </div>
-          {userAlredyExist && alredyExistedUser}
+          <div className={styles["error-messege"]}>
+            {userAlredyExist && alredyExistedUser}
+          </div>
           <Button type="submit" className={styles.button}>
             Sign Up
           </Button>

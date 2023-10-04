@@ -5,7 +5,15 @@ import {
   firebase,
   database as firebaseDatabase,
 } from "../firebase/FirebaseConfig";
-import { getDatabase, ref, remove } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  remove,
+  set,
+  push,
+  get,
+  update,
+} from "firebase/database";
 
 const CardsStoreContext = React.createContext({
   cards: [{}],
@@ -29,6 +37,7 @@ const CardsStoreContext = React.createContext({
 export const CardsStoreContextProvider = (props) => {
   const location = useLocation();
   const currentLocation = location.pathname.endsWith("/my-cards");
+  const favCardsLocation = location.pathname.endsWith("/fav-cards");
 
   const uCtx = useContext(UsersStoreContext);
 
@@ -48,7 +57,50 @@ export const CardsStoreContextProvider = (props) => {
     );
     // setCards((prevCards) => [...prevCards, newCard]);
   };
-  console.log(uCtx.users);
+
+  useEffect(() => {
+    const fetchFavCards = async () => {
+      const response = await fetch(
+        "https://react-course-http-bce24-default-rtdb.firebaseio.com/cards.json"
+      );
+      if (!response.ok) {
+        throw new Error("Что то пошло не так");
+      }
+      const responseData = await response.json();
+      // console.log(responseData);
+      const loadedCards = [];
+
+      for (const key in responseData)
+        if (responseData[key].fav === true) {
+          {
+            loadedCards.push({
+              id: key,
+              key: key,
+              name: responseData[key].name,
+              description: responseData[key].description,
+              src: responseData[key].src,
+              alt: responseData[key].alt,
+              cardNumber: responseData[key].id,
+              country: responseData[key].country,
+              city: responseData[key].city,
+              street: responseData[key].street,
+              street: responseData[key].street,
+              phone: responseData[key].phone,
+              url: responseData[key].url,
+              fav: responseData[key].fav,
+            });
+          }
+        }
+      return loadedCards;
+    };
+
+    fetchFavCards().then((loadedCards) => {
+      // Обновляем состояние users с помощью полученных данных
+      setFavCards(loadedCards);
+    });
+    // console.log(fetchUsers().PromiseResult);
+  }, [favCardsLocation]);
+
   useEffect(() => {
     const storedKey = localStorage.getItem("firebaseKey");
     const fetchCards = async () => {
@@ -83,6 +135,7 @@ export const CardsStoreContextProvider = (props) => {
             street: responseData[key].street,
             houseNumber: responseData[key].houseNumber,
             zip: responseData[key].zip,
+            fav: responseData[key].fav,
           });
         }
       }
@@ -94,6 +147,27 @@ export const CardsStoreContextProvider = (props) => {
     });
   }, [currentLocation]);
 
+  const updateCardData = async (cardId, updatedData) => {
+    const path = `cards/${cardId}`;
+    try {
+      // Обновляем данные карточки по указанному пути
+      await set(ref(firebaseDatabase, path), updatedData);
+      console.log(`Данные карточки с ключом ${cardId} успешно обновлены.`);
+
+      // Обновляем состояние cards с новыми данными
+      setCards((prevCards) =>
+        prevCards.map((card) =>
+          card.id === cardId ? { ...card, ...updatedData } : card
+        )
+      );
+    } catch (error) {
+      console.error(
+        `Ошибка при обновлении данных карточки с ключом ${cardId}:`,
+        error
+      );
+    }
+  };
+
   const editCardisActiveHandler = (cardId) => {
     const cardToEdit = cards.find((card) => card.id === cardId);
     setEditCard(cardToEdit);
@@ -101,16 +175,13 @@ export const CardsStoreContextProvider = (props) => {
   };
 
   const submitEditCardHandler = (currentCard) => {
-    const updatedCardList = cards.map((card) =>
-      card.id === currentCard.id ? currentCard : card
-    );
-    setCards(updatedCardList);
+    updateCardData(currentCard.id, currentCard);
     setEditPageActive(false);
   };
 
-  console.log(editCard);
-  console.log(cards);
-  console.log(editPageActive);
+  // console.log(editCard);
+  // console.log(cards);
+  // console.log(editPageActive);
 
   const deleteCardHandle = async (cardId) => {
     const path = `cards/${cardId}`;
@@ -135,7 +206,24 @@ export const CardsStoreContextProvider = (props) => {
     return favCards.find((card) => card.id === cardId);
   };
 
-  const FavCardsHandler = (newCardId) => {
+  const addOrRemoveCardFromFav = async (cardId, newFavValue) => {
+    const path = "cards"; // Путь к карточкам
+
+    try {
+      // Обновляем свойство 'fav' карточки по указанному id
+      await update(ref(firebaseDatabase, `${path}/${cardId}`), {
+        fav: newFavValue,
+      });
+
+      console.log(
+        `Свойство 'fav' карточки с ID ${cardId} обновлено в ${newFavValue}.`
+      );
+    } catch (error) {
+      console.error("Ошибка при обновлении свойства 'fav' карточки:", error);
+    }
+  };
+
+  const FavCardsHandler = (newCardId, favData) => {
     if (!favCards.find((card) => card.id === newCardId)) {
       const updatedCardList = [
         ...favCards,
@@ -145,12 +233,13 @@ export const CardsStoreContextProvider = (props) => {
     } else {
       favCardDeleteHandler(newCardId);
     }
+    addOrRemoveCardFromFav(newCardId, !favData);
   };
 
   return (
     <CardsStoreContext.Provider
       value={{
-        isCardFavorite: isCardFavorite,
+        isCardFavorite,
         cards: cards,
         onAddCard: addCardHandle,
         onDeleteCard: deleteCardHandle,
