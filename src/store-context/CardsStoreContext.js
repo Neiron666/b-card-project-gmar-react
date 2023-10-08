@@ -32,6 +32,8 @@ const CardsStoreContext = React.createContext({
   addCadrdButtonIsToched: Boolean,
   setCardIsDeleted: () => {},
   cardIsDeleted: Boolean,
+  setEditCadrdButtonIsToched: () => {},
+  editCadrdButtonIsToched: Boolean,
 });
 
 export const CardsStoreContextProvider = (props) => {
@@ -47,6 +49,7 @@ export const CardsStoreContextProvider = (props) => {
   const [editPageActive, setEditPageActive] = useState(false);
   const [editCard, setEditCard] = useState([]);
   const [addCadrdButtonIsToched, setAddCadrdButtonIsToched] = useState(false);
+  const [editCadrdButtonIsToched, setEditCadrdButtonIsToched] = useState(false);
   const addCardHandle = async (newCard) => {
     await fetch(
       `https://react-course-http-bce24-default-rtdb.firebaseio.com/cards.json`,
@@ -177,6 +180,7 @@ export const CardsStoreContextProvider = (props) => {
   const submitEditCardHandler = (currentCard) => {
     updateCardData(currentCard.id, currentCard);
     setEditPageActive(false);
+    setEditCadrdButtonIsToched(true);
   };
 
   // console.log(editCard);
@@ -254,6 +258,8 @@ export const CardsStoreContextProvider = (props) => {
         addCadrdButtonIsToched,
         setCardIsDeleted,
         cardIsDeleted,
+        setEditCadrdButtonIsToched,
+        editCadrdButtonIsToched,
       }}
     >
       {props.children}

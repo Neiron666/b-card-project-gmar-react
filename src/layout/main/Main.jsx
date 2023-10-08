@@ -21,7 +21,7 @@ const Main = () => {
     const userLogged = !!uCtx.currentUserSession && uCtx.loginButtonIsToched;
     const cardAdded = ctx.addCadrdButtonIsToched;
     const cardDeleted = ctx.cardIsDeleted;
-    // const cardAdded =
+    const cardUpdated = ctx.editCadrdButtonIsToched;
     if (userLogged) {
       handleAllertMessege("Login Succes");
       uCtx.setLoginButtonIsToched(false);
@@ -34,7 +34,10 @@ const Main = () => {
       handleAllertMessege("Card is Deleted");
       ctx.setCardIsDeleted(false);
     }
-
+    if (cardUpdated) {
+      handleAllertMessege("Card is Updated");
+      ctx.setEditCadrdButtonIsToched(false);
+    }
     const timer = setTimeout(() => {
       setAlertMessage(null); // Закрываем алерт через 5 секунд (можете изменить время)
     }, 3000);
